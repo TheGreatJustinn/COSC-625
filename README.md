@@ -1,4 +1,1 @@
-This is the GitHub repository for COSC-625 Code Masters.
-
-
-Good bye
+This is the GitHub repository for COSC-625 Team 3.
