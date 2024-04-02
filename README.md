@@ -1,1 +1,1 @@
-This is the GitHub repository for COSC-625 Code Masters.
+The code Masters are creating a weather app with some innovative features
