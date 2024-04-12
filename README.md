@@ -3,7 +3,11 @@ The code Masters are creating a weather app with some innovative features
 =======
 # new_weather
 
-A new Flutter project.
+First Iteration of flutter App.
+
+Functions:
+ - Weather functionality
+ - Toggle Switches in settings
 
 ## Getting Started
 
