@@ -27,7 +27,7 @@ class SavedLocations extends StatelessWidget {
                   onPressed: onSaveCurrentLocation,
                   child: Text('Save Current Location'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Button background color
+                    backgroundColor: Color(0xFF3C89EB), // Button background color
                     foregroundColor: Colors.white, // Button text color
                     elevation: 0, // No shadow for a flatter appearance
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
