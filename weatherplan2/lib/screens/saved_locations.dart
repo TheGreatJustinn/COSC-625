@@ -1,60 +1,66 @@
 import 'package:flutter/material.dart';
 
 class SavedLocations extends StatelessWidget {
-  final VoidCallback onSaveCurrentLocation; // Add this line
+  final VoidCallback onSaveCurrentLocation;
 
-  // Update constructor to accept onSaveCurrentLocation
-  SavedLocations({required this.onSaveCurrentLocation}); 
+  SavedLocations({required this.onSaveCurrentLocation});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
-      color: Colors.grey[200],
+      
+      color: Colors.grey[850], // Dark background for the entire widget
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Saved Locations',
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.blue),
-              ),
-              ElevatedButton(
-                onPressed: onSaveCurrentLocation,
-                child: Text('Save Current Location'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Background color
-                  foregroundColor: Colors.white, // Text color
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            color: const Color.fromARGB(255, 67, 67, 67), // Slightly different background color for the header
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Saved Locations',
+                  style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: onSaveCurrentLocation,
+                  child: Text('Save Current Location'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // Button background color
+                    foregroundColor: Colors.white, // Button text color
+                    elevation: 0, // No shadow for a flatter appearance
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    textStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 10.0),
           Expanded(
             child: ListView.builder(
-              itemCount: 5, // Replace with the actual number of saved locations
+              itemCount: 5, // Number of saved locations
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(
-                    'Location ${index + 1}', // Replace with the actual location name
+                    'Location ${index + 1}',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.normal,
-                      color: Colors.black, // Text color of the location name
+                      color: Colors.white, // White text color for visibility
                     ),
                   ),
                   subtitle: Text(
-                    'temp, condition', // Replace with the actual data
+                    'temp, condition',
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
-                      color: Colors.grey, // Text color of the coordinates
+                      color: Colors.grey[400], // Light grey for subtitle
                     ),
                   ),
                   onTap: () {
-                    // Handle tap on a saved location item
+                    // Action on tap
                   },
                 );
               },
