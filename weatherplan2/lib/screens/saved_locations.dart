@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 
 class SavedLocations extends StatelessWidget {
+  final VoidCallback onSaveCurrentLocation; // Add this line
+
+  // Update constructor to accept onSaveCurrentLocation
+  SavedLocations({required this.onSaveCurrentLocation}); 
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.0),
-      color: Colors.grey[200], // Background color of the saved locations section
+      color: Colors.grey[200],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Saved Locations',
-            style: TextStyle(
-              fontSize: 15.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue, // Text color of the section title
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Saved Locations',
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              ElevatedButton(
+                onPressed: onSaveCurrentLocation,
+                child: Text('Save Current Location'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // Background color
+                  foregroundColor: Colors.white, // Text color
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 10.0),
           Expanded(

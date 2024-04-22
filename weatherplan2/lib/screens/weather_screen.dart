@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:weatherplan2/utils/location_search.dart';
 import 'package:weatherplan2/screens/saved_locations.dart';
 
+
+
 class WeatherScreen extends StatelessWidget {
+  final String currentLocation = "New York, NY";  // Assume this is your current location
+
+  void saveCurrentLocation() {
+    // Logic to save the location
+    print("Saved location: $currentLocation");
+    // Here, implement the actual saving logic, possibly involving state management or database storage
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          'assets/WeatherPlanLogo.png',
-          width: 200,
-        ),
+        title: Image.asset('assets/WeatherPlanLogo.png', width: 200),
       ),
       body: Column(
         children: [
@@ -84,8 +91,10 @@ class WeatherScreen extends StatelessWidget {
             ),
           ),
           Container(
-            height: 150.0, // Height of the container for saved locations
-            child: SavedLocations(), // List of saved locations
+            height: 150.0,
+            child: SavedLocations(
+              onSaveCurrentLocation: saveCurrentLocation, // Pass the save action
+            ),
           ),
         ],
       ),
