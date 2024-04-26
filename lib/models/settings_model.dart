@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:new_weather/pages/clothing.dart';
+import 'package:new_weather/models/clothing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
