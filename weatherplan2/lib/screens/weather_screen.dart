@@ -40,9 +40,44 @@ class WeatherScreen extends StatelessWidget {
               temp: '54°F',
               clothingAdviceTop: 'sweater',
               backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Clear'),
-
+              textColor: WeatherStyles.getTextColorForCondition('Clear')
             ),
-            
+            SizedBox(height: 20),  // Adds vertical space between items
+            ForecastInfoItem(
+              day: 'Tomorrow',
+              hiTemp: '70',
+              loTemp: '50',
+              conditions: 'Cloudy',
+              backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Cloudy'),
+              textColor: WeatherStyles.getTextColorForCondition('Cloudy')
+            ),
+            SizedBox(height: 10),  // Adds vertical space between items
+            ForecastInfoItem(
+              day: 'Wednesday',
+              hiTemp: '55',
+              loTemp: '35',
+              conditions: 'Rainy',
+              backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Rainy'),
+              textColor: WeatherStyles.getTextColorForCondition('Rainy')
+            ),
+            SizedBox(height: 10),  // Adds vertical space between items
+            ForecastInfoItem(
+              day: 'Thursday',
+              hiTemp: '40',
+              loTemp: '20',
+              conditions: 'Snowy',
+              backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Snowy'),
+              textColor: WeatherStyles.getTextColorForCondition('Snowy')
+            ),
+            SizedBox(height: 10),  // Adds vertical space between items
+            ForecastInfoItem(
+              day: 'Friday',
+              hiTemp: '70',
+              loTemp: '50',
+              conditions: 'Clear',
+              backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Clear'),
+              textColor: WeatherStyles.getTextColorForCondition('Clear')
+            ), 
             // Additional dynamic weather information items could be added here.
           ],
         ),
@@ -66,6 +101,7 @@ class WeatherInfoItem extends StatelessWidget {
   final String conditions;
   final String temp;
   final String clothingAdviceTop;
+  final Color textColor;
   final LinearGradient backgroundColor;
 
   const WeatherInfoItem({
@@ -73,6 +109,7 @@ class WeatherInfoItem extends StatelessWidget {
     required this.conditions,
     required this.temp,
     required this.clothingAdviceTop,
+    required this.textColor,
     required this.backgroundColor,
   });
 
@@ -97,14 +134,27 @@ class WeatherInfoItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(location, style: TextStyle(color: Colors.white, fontFamily: "juneville", fontSize: 20)),
+                Text(location, style: TextStyle(color: Colors.white, fontFamily: "juneville", fontSize: 30,
+                  shadows: [
+                    Shadow( // Bottom right shadow
+                      color: Color.fromARGB(255, 41, 91, 198).withOpacity(0.5),
+                      offset: Offset(3.0, 3.0),
+                      blurRadius: 6.0,
+                    ),
+                    Shadow( // Top left shadow
+                      color: Color.fromARGB(255, 41, 91, 198).withOpacity(0.25),
+                      offset: Offset(-3.0, -3.0),
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                )),
                 Container(
                   width: 100.0,  // Width for the Lottie animation
                   height: 100.0,  // Height for the Lottie animation
                   child: WeatherStyles.getAnimationForCondition(conditions),  // Get Lottie animation for the condition
                 ),
-                Text("$conditions, $temp", style: TextStyle(color: Colors.white, fontSize: 16)),
-                Text("You need to wear a $clothingAdviceTop, dawg.")
+                Text("$conditions, $temp", style: TextStyle(color: textColor, fontSize: 16)),
+                Text("It's nice out,\nbut you should wear a $clothingAdviceTop.", style: TextStyle(color: textColor))
               ],
             ),
           ),
@@ -119,7 +169,7 @@ class ForecastInfoItem extends StatelessWidget {
   final String hiTemp;
   final String loTemp;
   final String conditions;
-  final IconData icon;
+  final Color textColor;
   final LinearGradient backgroundColor;
 
   const ForecastInfoItem({
@@ -127,18 +177,37 @@ class ForecastInfoItem extends StatelessWidget {
     required this.hiTemp,
     required this.loTemp,
     required this.conditions,
-    required this.icon,
+    required this.textColor,
     required this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: ListTile(
-        leading: Icon(icon),
-        title: Text(day),
-        subtitle: Text(conditions + ". High of " + hiTemp + ", low of " + loTemp),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Ensure padding matches LocationSearch
+      child: Material(
+        elevation: 4.0, // Adds shadow for the floating effect
+        borderRadius: BorderRadius.circular(8.0), // Rounded corners
+        child: Container(
+          width: MediaQuery.of(context).size.width * 1,  // Set width relative to the screen size
+          height: 100.0,
+          decoration: BoxDecoration(
+            gradient: backgroundColor, // Background gradient
+            borderRadius: BorderRadius.circular(8.0), // Rounded corners
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(0.0), // Padding inside the container
+            child: ListTile(
+              leading: Container(
+                        width: 30.0,  // Width for the Lottie animation
+                        height: 30.0,  // Height for the Lottie animation
+                        child: WeatherStyles.getAnimationForCondition(conditions),  // Get Lottie animation for the condition
+                      ),
+              title: Text(day, style: TextStyle(color: textColor)),
+              subtitle: Text(conditions + ". High of " + hiTemp + ", low of " + loTemp, style: TextStyle(color: textColor)),
+            ),
+          ),
+        ),
       ),
     );
   }
