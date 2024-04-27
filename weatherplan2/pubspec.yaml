@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -23,4 +24,8 @@ flutter:
   assets:
     - assets/weather_icon.png
     - assets/WeatherPlanLogo.png
+    - assets/animation_clear.json
+    - assets/animation_cloudy.json
+    - assets/animation_rainy.json
+    - assets/animation_snowy.json
   uses-material-design: true
