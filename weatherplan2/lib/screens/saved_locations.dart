@@ -8,7 +8,7 @@ class SavedLocations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[850], // Dark background for the entire widget
+      color: Color.fromARGB(255, 34, 34, 34), // Dark background for the entire widget
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,7 +26,7 @@ class SavedLocations extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [const Color.fromARGB(255, 67, 67, 67), Color.fromARGB(255, 48, 48, 48)],
+          colors: [const Color.fromARGB(255, 34, 34, 34), Color.fromARGB(255, 24, 24, 24)],
         ),
         boxShadow: [
           BoxShadow(
