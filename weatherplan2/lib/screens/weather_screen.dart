@@ -10,6 +10,7 @@ class WeatherScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 70, 141, 229),
       appBar: AppBar(
         title: Image.asset('assets/WeatherPlanLogo.png', fit: BoxFit.cover, width: 200),
         backgroundColor: Color.fromARGB(255, 24, 24, 24),
@@ -27,20 +28,21 @@ class WeatherScreen extends StatelessWidget {
   // Builds the weather and forecast information section
   Widget _buildWeatherAndForecastInfo() {
     return Expanded(
+
       child: SingleChildScrollView(
+
         child: Column(
+
           children: [
             WeatherInfoItem(
               location: currentLocation,
-              icon: WeatherStyles.getIconForCondition('Sunny'),
-              conditions: 'Sunny',
-              temp: '63°F',
-              backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Sunny'),
-            ),
-            ClothingInfoItem(
-              icon: WeatherStyles.getIconForCondition('Sunny'),
+              conditions: 'Clear',
+              temp: '54°F',
+              clothingAdviceTop: 'sweater',
+              backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Clear'),
 
-            )
+            ),
+            
             // Additional dynamic weather information items could be added here.
           ],
         ),
@@ -61,52 +63,52 @@ class WeatherScreen extends StatelessWidget {
 
 class WeatherInfoItem extends StatelessWidget {
   final String location;
-  final IconData icon;
   final String conditions;
   final String temp;
+  final String clothingAdviceTop;
   final LinearGradient backgroundColor;
 
   const WeatherInfoItem({
     required this.location,
-    required this.icon,
     required this.conditions,
     required this.temp,
+    required this.clothingAdviceTop,
     required this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(gradient: backgroundColor),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(location, style: TextStyle(color: Colors.white, fontFamily: "juneville", fontSize: 20)),
-            Icon(icon, size: 30),
-            Text("$conditions, $temp", style: TextStyle(fontSize: 16)),
-          ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Ensure padding matches LocationSearch
+      child: Material(
+        elevation: 4.0, // Adds shadow for the floating effect
+        borderRadius: BorderRadius.circular(8.0), // Rounded corners
+        child: Container(
+          width: MediaQuery.of(context).size.width * 1,  // Set width relative to the screen size
+          height: 300.0,
+          decoration: BoxDecoration(
+            gradient: backgroundColor, // Background gradient
+            borderRadius: BorderRadius.circular(8.0), // Rounded corners
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0), // Padding inside the container
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(location, style: TextStyle(color: Colors.white, fontFamily: "juneville", fontSize: 20)),
+                Container(
+                  width: 100.0,  // Width for the Lottie animation
+                  height: 100.0,  // Height for the Lottie animation
+                  child: WeatherStyles.getAnimationForCondition(conditions),  // Get Lottie animation for the condition
+                ),
+                Text("$conditions, $temp", style: TextStyle(color: Colors.white, fontSize: 16)),
+                Text("You need to wear a $clothingAdviceTop, dawg.")
+              ],
+            ),
+          ),
         ),
-      ),
-    );
-  }
-}
-
-class ClothingInfoItem extends StatelessWidget {
-  final IconData icon;
-
-  const ClothingInfoItem({
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListTile(
-        leading: Icon(icon),
       ),
     );
   }
