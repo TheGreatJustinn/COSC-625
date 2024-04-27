@@ -17,12 +17,12 @@ class WeatherStyles {
     "Rainy": LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [Colors.blueGrey, Colors.blue.shade900],
+      colors: [Colors.grey.shade800, Colors.grey.shade700],
     ),
     "Snowy": LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [Colors.grey, Colors.white],
+      colors: [Colors.grey.shade600, Colors.grey.shade500],
     ),
   };
 
@@ -31,6 +31,13 @@ class WeatherStyles {
     "Cloudy": Lottie.asset('assets/animation_cloudy.json'),
     "Rainy": Lottie.asset('assets/animation_rainy.json'),
     "Snowy": Lottie.asset('assets/animation_snowy.json'),
+  };
+
+  static final Map<String, Color> textColor = {
+    "Clear" : Colors.black,
+    "Cloudy": Colors.black,
+    "Rainy": Colors.white,
+    "Snowy": Colors.white,
   };
 
   // Retrieves the background gradient for a given weather condition
@@ -45,5 +52,9 @@ class WeatherStyles {
   // Retrieves the icon for a given weather condition
   static Widget getAnimationForCondition(String condition) {
     return weatherAnimations[condition] ?? Lottie.asset('assets/animation_clear.json');  // Default icon if condition not found
+  }
+
+   static Color getTextColorForCondition(String condition) {
+    return textColor[condition] ?? Colors.black;  // Default icon if condition not found
   }
 }
