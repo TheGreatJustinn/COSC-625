@@ -77,7 +77,8 @@ class WeatherScreen extends StatelessWidget {
               conditions: 'Clear',
               backgroundColor: WeatherStyles.getBackgroundGradientForCondition('Clear'),
               textColor: WeatherStyles.getTextColorForCondition('Clear')
-            ), 
+            ),
+            SizedBox(height: 20) 
             // Additional dynamic weather information items could be added here.
           ],
         ),
@@ -153,8 +154,8 @@ class WeatherInfoItem extends StatelessWidget {
                   height: 100.0,  // Height for the Lottie animation
                   child: WeatherStyles.getAnimationForCondition(conditions),  // Get Lottie animation for the condition
                 ),
-                Text("$conditions, $temp", style: TextStyle(color: textColor, fontSize: 16)),
-                Text("It's nice out,\nbut you should wear a $clothingAdviceTop.", style: TextStyle(color: textColor))
+                Text("$conditions, $temp", style: TextStyle(color: textColor, fontSize: 16, height: 3)),
+                Text("It's nice out, but you should wear a $clothingAdviceTop.", style: TextStyle(color: textColor, fontSize: 10))
               ],
             ),
           ),
@@ -190,7 +191,7 @@ class ForecastInfoItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0), // Rounded corners
         child: Container(
           width: MediaQuery.of(context).size.width * 1,  // Set width relative to the screen size
-          height: 100.0,
+          height: 55.0,
           decoration: BoxDecoration(
             gradient: backgroundColor, // Background gradient
             borderRadius: BorderRadius.circular(8.0), // Rounded corners
@@ -203,8 +204,8 @@ class ForecastInfoItem extends StatelessWidget {
                         height: 30.0,  // Height for the Lottie animation
                         child: WeatherStyles.getAnimationForCondition(conditions),  // Get Lottie animation for the condition
                       ),
-              title: Text(day, style: TextStyle(color: textColor)),
-              subtitle: Text(conditions + ". High of " + hiTemp + ", low of " + loTemp, style: TextStyle(color: textColor)),
+              title: Text(day, style: TextStyle(color: textColor, fontSize: 10)),
+              trailing: Text(conditions + ". High of " + hiTemp + ", low of " + loTemp, style: TextStyle(color: textColor, fontSize: 11)),
             ),
           ),
         ),
