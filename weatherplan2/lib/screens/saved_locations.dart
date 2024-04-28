@@ -21,6 +21,7 @@ class SavedLocations extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
+      height: 40,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -49,8 +50,8 @@ class SavedLocations extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF3C89EB),
               foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              elevation: 2,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               textStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
             ),
