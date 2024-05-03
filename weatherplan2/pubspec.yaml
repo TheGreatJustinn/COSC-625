@@ -1,0 +1,31 @@
+name: weatherplan2
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  lottie: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  fonts:
+    - family: juneville
+      fonts: 
+      - asset: assets/juneville.ttf
+  assets:
+    - assets/weather_icon.png
+    - assets/WeatherPlanLogo.png
+    - assets/animation_clear.json
+    - assets/animation_cloudy.json
+    - assets/animation_rainy.json
+    - assets/animation_snowy.json
+  uses-material-design: true
