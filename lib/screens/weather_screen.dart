@@ -4,13 +4,15 @@ import 'package:weatherplan2/screens/saved_locations.dart';
 import 'package:weatherplan2/utils/api.dart'; // Import the WeatherApi class
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({super.key});
+  const WeatherScreen({Key? key}) : super(key: key);
 
+  @override
   _WeatherScreenState createState() => _WeatherScreenState();
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
   List<MyWeatherData> weatherDataList = [];
+  List<List<String>> savedLocations = []; // Initialize an empty list to store locations
 
   void initState() {
     super.initState();
@@ -25,10 +27,32 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   void saveCurrentLocation() {
     // Logic to save the location
-    var currentLocation;
-    print("Saved location: $currentLocation");
-    // Here, implement the actual saving logic, possibly involving state management or database storage
-    // Don't forget to check if location already exists in saved locations
+    if (weatherDataList.isNotEmpty) {
+      var cityName = weatherDataList[0].cityName;
+      var temperature = '${weatherDataList[0].temperature}';
+      var shortForecast = weatherDataList[0].shortForecast;
+
+      if (cityName != null && temperature.isNotEmpty && shortForecast != null) {
+        var currentLocation = [
+          cityName,
+          temperature,
+          shortForecast,
+        ];
+        setState(() {
+          if (savedLocations.length >= 5) {
+            savedLocations.removeAt(0); // Remove the first location if the list size is 5 or more
+          }
+          savedLocations.add(currentLocation);
+
+        });
+        // Here, implement the actual saving logic, possibly involving state management or database storage
+        // Don't forget to check if location already exists in saved locations
+      } else {
+        print("Invalid weather data. Cannot save location.");
+      }
+    } else {
+      print("No weather data available to save location.");
+    }
   }
 
   @override
@@ -53,6 +77,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             height: 150.0,
             child: SavedLocations(
               onSaveCurrentLocation: saveCurrentLocation,
+              locationsData: savedLocations, // Pass savedLocations to SavedLocations widget
             ),
           ),
         ],
