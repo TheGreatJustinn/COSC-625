@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       body: ListView(
         children: [
           SwitchListTile(
-            title: Text('Dark Mode'),
+            title: Text('Dark Mode', style: TextStyle(color: Theme.of(context).textTheme.bodyText1?.color)),
             value: _isDarkMode,
             onChanged: (value) {
               setState(() {
@@ -46,8 +46,8 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
             },
           ),
           SwitchListTile(
-            title: Text('Temperature Unit'),
-            subtitle: Text(_isCelsius ? 'Celsius' : 'Fahrenheit'),
+            title: Text('Temperature Unit', style: TextStyle(color: Theme.of(context).textTheme.bodyText1?.color)),
+            subtitle: Text(_isCelsius ? 'Celsius' : 'Fahrenheit', style: TextStyle(color: Theme.of(context).textTheme.subtitle1?.color)),
             value: _isCelsius,
             onChanged: (value) {
               setState(() {

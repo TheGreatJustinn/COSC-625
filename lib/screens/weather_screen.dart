@@ -140,7 +140,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 conditions: weatherData.shortForecast,
                 temp: '${weatherData.temperature}',
                 isCelsius: _isCelsius,
-                backgroundColor: Colors.grey.shade300,
+                // backgroundColor: Colors.grey.shade300,
               ),
             const SizedBox(height: 10),
           ],
@@ -158,7 +158,7 @@ class WeatherInfoItem extends StatelessWidget {
   final String conditions;
   final String temp;
   final bool isCelsius;
-  final Color backgroundColor;
+  // final Color backgroundColor;
 
   const WeatherInfoItem({
     required this.location,
@@ -166,14 +166,14 @@ class WeatherInfoItem extends StatelessWidget {
     required this.conditions,
     required this.temp,
     required this.isCelsius,
-    required this.backgroundColor,
+    // required this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 300.0,
-      color: backgroundColor,
+      // color: backgroundColor,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
