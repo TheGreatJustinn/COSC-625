@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:weatherplan2/screens/settings.dart';
 import 'package:weatherplan2/utils/location_search.dart';
 import 'package:weatherplan2/screens/saved_locations.dart';
-import 'package:weatherplan2/utils/api.dart'; // Import the WeatherApi class
+import 'package:weatherplan2/utils/api.dart';
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({Key? key}) : super(key: key);
+  const WeatherScreen({Key? key, required this.isDarkMode, required this.isCelsius, required this.updateSettings}) : super(key: key);
+  final bool isDarkMode;
+  final bool isCelsius;
+  final Function(bool, bool) updateSettings;
 
   @override
   _WeatherScreenState createState() => _WeatherScreenState();
@@ -12,21 +16,35 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   List<MyWeatherData> weatherDataList = [];
-  List<List<String>> savedLocations = []; // Initialize an empty list to store locations
+  List<List<String>> savedLocations = [];
+  bool _isCelsius = false;
+  TextEditingController _controller = TextEditingController();
 
+  @override
   void initState() {
     super.initState();
+    _isCelsius = widget.isCelsius;
+  }
+
+  @override
+  void didUpdateWidget(WeatherScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isCelsius != widget.isCelsius) {
+      setState(() {
+        _isCelsius = widget.isCelsius;
+      });
+      fetchWeatherData(_controller.text);
+    }
   }
 
   void fetchWeatherData(String zipCode) async {
-    List<MyWeatherData> data = await WeatherApi.getWeatherData(zipCode);
+    List<MyWeatherData> data = await WeatherApi.getWeatherData(zipCode, _isCelsius);
     setState(() {
       weatherDataList = data;
     });
   }
 
   void saveCurrentLocation() {
-    // Logic to save the location
     if (weatherDataList.isNotEmpty) {
       var cityName = weatherDataList[0].cityName;
       var temperature = '${weatherDataList[0].temperature}';
@@ -40,13 +58,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ];
         setState(() {
           if (savedLocations.length >= 5) {
-            savedLocations.removeAt(0); // Remove the first location if the list size is 5 or more
+            savedLocations.removeAt(0);
           }
           savedLocations.add(currentLocation);
-
         });
-        // Here, implement the actual saving logic, possibly involving state management or database storage
-        // Don't forget to check if location already exists in saved locations
       } else {
         print("Invalid weather data. Cannot save location.");
       }
@@ -60,16 +75,34 @@ class _WeatherScreenState extends State<WeatherScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/WeatherPlanLogo.png', width: 200),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsPage(
+                    isDarkMode: widget.isDarkMode,
+                    isCelsius: widget.isCelsius,
+                    updateSettings: widget.updateSettings,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
           LocationSearch(
-            onSearch: fetchWeatherData, // Passes the fetchWeatherData method to LocationSearch
+            onSearch: fetchWeatherData,
+            isCelsius: _isCelsius,
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                children: _buildWeatherInfoItems(), // Use a function to build WeatherInfoItems
+                children: _buildWeatherInfoItems(),
               ),
             ),
           ),
@@ -77,7 +110,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             height: 150.0,
             child: SavedLocations(
               onSaveCurrentLocation: saveCurrentLocation,
-              locationsData: savedLocations, // Pass savedLocations to SavedLocations widget
+              locationsData: savedLocations,
             ),
           ),
         ],
@@ -86,15 +119,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   List<Widget> _buildWeatherInfoItems() {
-    // Group weather data by day
     Map<String, List<MyWeatherData>> groupedData = {};
 
     for (var weatherData in weatherDataList) {
-      String day = weatherData.name.split(' ')[0]; // Extract day from the name
+      String day = weatherData.name.split(' ')[0];
       groupedData.putIfAbsent(day, () => []).add(weatherData);
     }
 
-    // Create WeatherInfoItem for each day
     List<Widget> widgets = [];
 
     groupedData.forEach((day, dataList) {
@@ -105,10 +136,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
             for (var weatherData in dataList)
               WeatherInfoItem(
                 location: '${weatherData.cityName}, ${weatherData.stateName}',
-                icon: Icons.wb_sunny_outlined, // Replace with ACTUAL weather icon
+                icon: Icons.wb_sunny_outlined,
                 conditions: weatherData.shortForecast,
                 temp: '${weatherData.temperature}',
-                backgroundColor: Colors.grey.shade300, // Use a default color for now
+                isCelsius: _isCelsius,
+                backgroundColor: Colors.grey.shade300,
               ),
             const SizedBox(height: 10),
           ],
@@ -125,6 +157,7 @@ class WeatherInfoItem extends StatelessWidget {
   final IconData icon;
   final String conditions;
   final String temp;
+  final bool isCelsius;
   final Color backgroundColor;
 
   const WeatherInfoItem({
@@ -132,6 +165,7 @@ class WeatherInfoItem extends StatelessWidget {
     required this.icon,
     required this.conditions,
     required this.temp,
+    required this.isCelsius,
     required this.backgroundColor,
   });
 
@@ -139,12 +173,12 @@ class WeatherInfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300.0,
-      color: backgroundColor, // Use the background color
+      color: backgroundColor,
       child: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Use the minimal space needed by the child
-          mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-          crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               location,
@@ -158,7 +192,7 @@ class WeatherInfoItem extends StatelessWidget {
               size: 30,
             ),
             Text(
-              "$conditions, $temp",
+              "$conditions, $temp${isCelsius ? '°C' : '°F'}",
               style: const TextStyle(
                 fontSize: 16,
               ),

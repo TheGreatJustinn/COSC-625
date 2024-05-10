@@ -1,18 +1,18 @@
-import 'api.dart'; // Assuming weather_api.dart contains the WeatherApi class
+import 'api.dart';
 
 class HandleUserInput {
   static String? storedZipCode;
+  static bool isCelsius = false;
 
-  static void handleQuery(String query) {
-    // Assuming the query is a ZIP code, you can store it in the storedZipCode variable
+  static void handleQuery(String query, bool isCelsius) {
     storedZipCode = query;
+    HandleUserInput.isCelsius = isCelsius;
+
     print('Stored ZIP Code: $storedZipCode');
+    print('Temperature Unit: ${isCelsius ? 'Celsius' : 'Fahrenheit'}');
 
-    // You can perform further actions with the stored ZIP code here, such as fetching weather data
     if (storedZipCode != null) {
-      WeatherApi weatherApi = WeatherApi();
-      WeatherApi.getWeatherData(storedZipCode!);
-
+      WeatherApi.getWeatherData(storedZipCode!, isCelsius);
     }
   }
 }

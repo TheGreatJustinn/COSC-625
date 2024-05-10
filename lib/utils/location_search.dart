@@ -4,8 +4,9 @@ import 'handleuserinput.dart'; // Import code from handleuserinput.dart
 
 class LocationSearch extends StatefulWidget {
   final Function(String) onSearch; // Adds the onSearch parameter
+  final bool isCelsius; // Add the isCelsius parameter
 
-  LocationSearch({required this.onSearch}); // Constructor
+  LocationSearch({required this.onSearch, required this.isCelsius}); // Constructor
 
   @override
   _LocationSearchState createState() => _LocationSearchState();
@@ -16,11 +17,12 @@ class _LocationSearchState extends State<LocationSearch> {
   String _searchedLocation = ''; // Declare searchedLocation variable
 
   void _searchLocation(String zipCode) async {
-    // Calls the onSearch function provided by the widget
-    widget.onSearch(zipCode);
-
-    // The existing search location will stay the same
-  }
+  widget.onSearch(zipCode);
+  HandleUserInput.handleQuery(zipCode, widget.isCelsius);
+  setState(() {
+    _searchedLocation = zipCode;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
