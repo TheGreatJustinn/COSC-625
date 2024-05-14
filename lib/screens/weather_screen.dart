@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weatherplan2/screens/settings.dart';
-import 'package:weatherplan2/utils/location_search.dart';
-import 'package:weatherplan2/screens/saved_locations.dart';
-import 'package:weatherplan2/utils/api.dart';
+import '../screens/settings.dart';
+import '../utils/location_search.dart';
+import '../screens/saved_locations.dart';
+import '../utils/api.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({Key? key, required this.isDarkMode, required this.isCelsius, required this.updateSettings}) : super(key: key);
@@ -49,26 +49,22 @@ class _WeatherScreenState extends State<WeatherScreen> {
       var cityName = weatherDataList[0].cityName;
       var temperature = '${weatherDataList[0].temperature}';
       var shortForecast = weatherDataList[0].shortForecast;
-
-      if (cityName != null && temperature.isNotEmpty && shortForecast != null) {
-        var currentLocation = [
+      var currentLocation = [
           cityName,
           temperature,
           shortForecast,
-        ];
-        setState(() {
-          if (savedLocations.length >= 5) {
-            savedLocations.removeAt(0);
-          }
-          savedLocations.add(currentLocation);
-        });
-      } else {
-        print("Invalid weather data. Cannot save location.");
-      }
+      ];
+      setState(() {
+        if (savedLocations.length >= 5) {
+          savedLocations.removeAt(0);
+        }
+        savedLocations.add(currentLocation);
+      });
     } else {
-      print("No weather data available to save location.");
+      print("Invalid weather data. Cannot save location.");
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {

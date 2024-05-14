@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'api.dart'; // Import the WeatherApi class
 import 'handleuserinput.dart'; // Import code from handleuserinput.dart
 
 class LocationSearch extends StatefulWidget {
