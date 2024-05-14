@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class MyWeatherData {
-  final String name; // Day name
-  final int temperature; // Temperature in Fahrenheit
+  final String name;
+  final int temperature;
   final String shortForecast;
   final String cityName;
   final String stateName;
@@ -19,11 +19,10 @@ class MyWeatherData {
 }
 
 class WeatherApi {
-  static final String apiKey = 'AIzaSyDALA35h_xl1wd4dQ4JWZAzn2AKMouR0IA'; // Add your API key here
+  static final String apiKey = 'AIzaSyDALA35h_xl1wd4dQ4JWZAzn2AKMouR0IA';
 
-  static Future<List<MyWeatherData>> getWeatherData(String zipCode) async {
-    final geocodingUrl =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=$zipCode&key=$apiKey';
+  static Future<List<MyWeatherData>> getWeatherData(String zipCode, bool isCelsius) async {
+    final geocodingUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=$zipCode&key=$apiKey';
 
     try {
       final response = await http.get(Uri.parse(geocodingUrl));
@@ -36,11 +35,10 @@ class WeatherApi {
           final location = results[0]['geometry']['location'];
           final latitude = location['lat'];
           final longitude = location['lng'];
-          final city = results[0]['address_components'][1]['long_name']; // Extract city name
-          final state = results[0]['address_components'][2]['short_name']; // Extract state name
+          final city = results[0]['address_components'][1]['long_name'];
+          final state = results[0]['address_components'][2]['short_name'];
 
           final weatherUrl = 'https://api.weather.gov/points/$latitude,$longitude/';
-
           final weatherResponse = await http.get(Uri.parse(weatherUrl));
 
           if (weatherResponse.statusCode == 200) {
@@ -51,8 +49,7 @@ class WeatherApi {
 
             if (forecastResponse.statusCode == 200) {
               final forecastData = json.decode(forecastResponse.body);
-
-              return parseWeatherData(forecastData, city, state);
+              return parseWeatherData(forecastData, city, state, isCelsius);
             }
           }
         }
@@ -60,16 +57,16 @@ class WeatherApi {
     } catch (e) {
       print('Error fetching weather data: $e');
     }
+
     return [];
   }
 
-  static List<MyWeatherData> parseWeatherData(dynamic forecastData, String city, String state) {
+  static List<MyWeatherData> parseWeatherData(dynamic forecastData, String city, String state, bool isCelsius) {
     final List<MyWeatherData> weatherDataList = [];
 
     for (var period in forecastData['properties']['periods']) {
       final String name = period['name'];
-      final int temperature = period['temperature'];
-
+      final int temperature = isCelsius ? ((period['temperature'] - 32) * 5 / 9).round() : period['temperature'];
       final shortForecast = period['shortForecast'];
 
       MyWeatherData weatherData = MyWeatherData(
@@ -79,8 +76,10 @@ class WeatherApi {
         cityName: city,
         stateName: state,
       );
+
       weatherDataList.add(weatherData);
     }
+
     return weatherDataList;
   }
 }

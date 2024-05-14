@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 class SavedLocations extends StatelessWidget {
   final VoidCallback onSaveCurrentLocation;
+  final List<List<String>> locationsData; // Add this parameter
 
-  SavedLocations({required this.onSaveCurrentLocation});
+  SavedLocations({
+    required this.onSaveCurrentLocation,
+    required this.locationsData, // Update constructor to include locationsData
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       color: Colors.grey[850], // Dark background for the entire widget
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,11 +43,16 @@ class SavedLocations extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 5, // Number of saved locations
+              itemCount: locationsData.length, // Update to use locationsData length
               itemBuilder: (context, index) {
+                List<String> locationData = locationsData[index];
+                String location = locationData[0];
+                String temp = locationData[1];
+                String description = locationData[2];
+
                 return ListTile(
                   title: Text(
-                    'Location ${index + 1}',
+                    location,
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.normal,
@@ -52,7 +60,7 @@ class SavedLocations extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    'temp, condition',
+                    'Temp: $temp, Condition: $description',
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
