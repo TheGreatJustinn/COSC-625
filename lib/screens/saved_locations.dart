@@ -6,7 +6,7 @@ class SavedLocations extends StatelessWidget {
 
   SavedLocations({
     required this.onSaveCurrentLocation,
-    required this.locationsData, // Update constructor to include locationsData
+    required this.locationsData,
   });
 
   @override
